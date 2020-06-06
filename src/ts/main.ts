@@ -1,6 +1,7 @@
 import fs = require("fs")
 import readline = require("readline")
 
+const config = initConfig()
 initReadline(onLine)
 
 function onLine(line: string) {
@@ -12,6 +13,13 @@ function onLine(line: string) {
         case "help": console.log("exit")
 
     }
+}
+
+function initConfig(): any {
+    console.log("Reading config.json...")
+    const config = JSON.parse(fs.readFileSync("config.json").toString())
+    console.log(config)
+    return config
 }
 
 function initReadline(listener: (line: string) => void) {
