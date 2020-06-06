@@ -9,7 +9,8 @@
   "scripts": {
     "watch": "npx tsc -watch",
     "start": "node src/js/main.js",
-    "build": "npx tsc && pkg . --out-path build"
+    "build": "npx tsc && pkg . --out-path build",
+    "test": "node src/js/test.js"
   },
   "keywords": [],
   "author": "wirekang",
