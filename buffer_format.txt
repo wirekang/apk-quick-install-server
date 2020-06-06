@@ -1,7 +1,7 @@
 {bytes} {type} {name}
 
 HEAD
-1   uint8       length of event
+2   uint16       length of event
 ?   utf8        event
 
 
