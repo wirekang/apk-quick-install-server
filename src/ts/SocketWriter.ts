@@ -1,5 +1,5 @@
 import net = require("net")
-export default class SocketWrapper {
+export default class SocketWriter {
     socket: net.Socket
     constructor(socket: net.Socket) {
         this.socket = socket
