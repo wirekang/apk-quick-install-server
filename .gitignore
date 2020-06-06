@@ -1,0 +1,16 @@
+.vscode/
+node_modules/
+build/
+config.json
+src/js/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Optional npm cache directory
+.npm
+
+# Windows thumbnail cache files
+Thumbs.db

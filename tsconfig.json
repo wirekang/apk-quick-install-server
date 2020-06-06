@@ -1,0 +1,13 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "rootDir": "src/ts",
+    "outDir": "src/js"
+  },
+  "exclude": [
+    "node_modules"
+  ],
+}
