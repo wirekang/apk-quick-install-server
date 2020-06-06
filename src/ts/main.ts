@@ -1,16 +1,30 @@
 import fs = require("fs")
 import readline = require("readline")
+import Server from "./Server"
+import FileWatcher from "./FileWatcher"
 
 const config = initConfig()
 initReadline(onLine)
+
+const server = new Server(config.port)
+new FileWatcher(config.file, onFileChange)
+
+function onFileChange() {
+    server.transferFile(config.file)
+}
 
 function onLine(line: string) {
     line = line.trim()
     const args = line.split(" ")
     switch (args[0]) {
-        case "exit": process.exit()
+        case "send":
+            server.transferFile(config.file)
             break
-        case "help": console.log("exit")
+        case "event":
+            server.sendEmptyEvent(args[1])
+            break
+        case "exit": process.exit()
+        case "help": console.log("send exit")
 
     }
 }
