@@ -49,7 +49,7 @@ export default class Server {
     }
 
     private onClientData = (data: Buffer) => {
-        const legnth = data.readUInt8()
+        const length = data.readUInt8()
         const event = data.slice(1, length).toString()
         this.log(`Recieved ${data.byteLength} bytes`)
         this.onClientEvent(event, data.slice(length))
