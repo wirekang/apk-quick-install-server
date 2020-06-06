@@ -1,0 +1,22 @@
+{bytes} {type} {name}
+
+HEAD
+1   uint8       length of event
+?   utf8        event
+
+
+######## Server -> Client ########
+
+"file start"
+4   uint32      file size
+
+"file"
+4   uint32      offset
+2   uint16      size of bytes
+?   uint8       bytes
+
+
+######## Client -> Server ########
+
+"file end"
+4   uint32      size of recieved file
