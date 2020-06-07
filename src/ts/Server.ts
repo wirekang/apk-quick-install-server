@@ -90,7 +90,7 @@ export default class Server {
         const bytes = file.toJSON().data
         var left = stats.size
         var offset = 0
-        var step = 0
+        var prePercent = -1
         while (left > 0) {
             var send = BUFFER_SIZE
             var end = offset + send
@@ -100,8 +100,11 @@ export default class Server {
             }
             this.sendFile(offset, bytes.slice(offset, end))
             left -= send
-            //if (step++ % 123 == 0)
-            this.log(`send: ${fileName}  ${end} / ${stats.size}  ${Math.round(end / stats.size * 100)}%`)
+            const percent = Math.round(end / stats.size * 100)
+            if (prePercent != percent) {
+                this.log(`send: ${fileName}  ${end} / ${stats.size}  ${percent}%`)
+                prePercent = percent
+            }
             offset += send
         }
         this.log("send end")
