@@ -3,7 +3,7 @@ import fs = require("fs")
 import SocketWriter from "./SocketWriter"
 import BufferReader from "./BufferReader"
 
-const BUFFER_SIZE = 1024
+const BUFFER_SIZE = 32
 
 export default class Server {
     isConnected: boolean
@@ -36,11 +36,18 @@ export default class Server {
 
         this.client = socket
         this.client.setKeepAlive(true)
+        this.client.setNoDelay(true)
 
         this.writer = new SocketWriter(this.client)
 
         this.client.on("end", () => {
             this.log(`Disconnect(${this.getSocketAddress(this.client)})`)
+            this.isConnected = false
+            this.client = null
+        })
+
+        this.client.on("error", (err: Error) => {
+            this.log(`Error (${err})`)
             this.isConnected = false
             this.client = null
         })
@@ -93,8 +100,8 @@ export default class Server {
             }
             this.sendFile(offset, bytes.slice(offset, end))
             left -= send
-            if (step++ % 123 == 0)
-                this.log(`send: ${fileName}  ${end / stats.size * 100}%`)
+            //if (step++ % 123 == 0)
+            this.log(`send: ${fileName}  ${end} / ${stats.size}  ${Math.round(end / stats.size * 100)}%`)
             offset += send
         }
         this.log("send end")
