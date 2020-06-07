@@ -56,8 +56,8 @@ export default class Server {
     }
 
     private onClientData = (data: Buffer) => {
-        const length = data.readUInt8()
-        const event = data.slice(1, length).toString()
+        const length = data.readInt16BE()
+        const event = data.slice(2, length).toString()
         this.log(`Recieved ${data.byteLength} bytes`)
         this.onClientEvent(event, data.slice(length))
     }
@@ -67,7 +67,7 @@ export default class Server {
         const reader = new BufferReader(data)
         switch (event) {
             case "file end":
-                this.onClientRecieveFile(reader.readUInt32())
+                this.onClientRecieveFile(reader.readInt64())
         }
     }
 
@@ -109,15 +109,15 @@ export default class Server {
 
     private sendFileStart(fileSize: number) {
         this.writer.writeString("file start")
-        this.writer.writeUInt64(fileSize)
+        this.writer.writeInt64(fileSize)
     }
 
     private sendFile = (offset: number, bytes: number[]) => {
         this.writer.writeString("file")
-        this.writer.writeUInt64(offset)
-        this.writer.writeUInt16(bytes.length)
+        this.writer.writeInt64(offset)
+        this.writer.writeInt16(bytes.length)
         bytes.forEach((byte) => {
-            this.writer.writeUInt8(byte)
+            this.writer.writeByte(byte)
         })
     }
 

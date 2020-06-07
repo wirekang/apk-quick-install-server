@@ -1,22 +1,22 @@
 {bytes} {type} {name}
 
 HEAD
-2   uint16       length of event
-?   utf8        event
+2   int16        length of event
+?   byte         event
 
 
 ######## Server -> Client ########
 
 "file start"
-8   uint64      file size
+8   int64       file size
 
 "file"
-8   uint64      offset
-2   uint16      size of bytes
-?   uint8       bytes
+8   int64       offset
+2   int16       size of bytes
+?   byte        bytes
 
 
 ######## Client -> Server ########
 
 "file end"
-8   uint64      size of recieved file
+8   int64       size of recieved file

@@ -8,24 +8,30 @@ export default class BufferReader {
     }
 
     readString = (): string => {
-        const length = this.readUInt16()
+        const length = this.readInt16()
         const r = this.buffer.slice(this.offset, this.offset + length)
         return r.toString("utf8")
     }
 
-    readUInt8 = (): number => {
+    readByte = (): number => {
         return this.buffer.readUInt8(this.offset++)
     }
 
-    readUInt16 = (): number => {
-        const r = this.buffer.readUInt16BE(this.offset)
+    readInt16 = (): number => {
+        const r = this.buffer.readInt16BE(this.offset)
         this.offset += 2
         return r
     }
 
-    readUInt32 = (): number => {
-        const r = this.buffer.readUInt32BE(this.offset)
-        this.offset += 3
+    readInt32 = (): number => {
+        const r = this.buffer.readInt32BE(this.offset)
+        this.offset += 4
         return r
+    }
+
+    readInt64 = (): number => {
+        const r = this.buffer.readBigInt64BE(this.offset)
+        this.offset += 8
+        return Number(r)
     }
 }

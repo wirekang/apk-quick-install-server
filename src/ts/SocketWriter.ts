@@ -6,31 +6,31 @@ export default class SocketWriter {
     }
 
     writeString = (str: string) => {
-        this.writeUInt16(str.length)
-        this.socket.write(str)
+        this.writeInt16(str.length)
+        this.socket.write(str, "utf8")
     }
 
-    writeUInt8 = (int: number) => {
+    writeByte = (int: number) => {
         const buffer = Buffer.alloc(1)
         buffer.writeUInt8(int)
         this.socket.write(buffer)
     }
 
-    writeUInt16 = (int: number) => {
+    writeInt16 = (int: number) => {
         const buffer = Buffer.alloc(2)
-        buffer.writeUInt16BE(int)
+        buffer.writeInt16BE(int)
         this.socket.write(buffer)
     }
 
-    writeUInt32 = (int: number) => {
+    writeInt32 = (int: number) => {
         const buffer = Buffer.alloc(4)
-        buffer.writeUInt32BE(int)
+        buffer.writeInt32BE(int)
         this.socket.write(buffer)
     }
 
-    writeUInt64 = (int: number) => {
+    writeInt64 = (int: number) => {
         const buffer = Buffer.alloc(8)
-        buffer.writeBigUInt64BE(BigInt(int))
+        buffer.writeBigInt64BE(BigInt(int))
         this.socket.write(buffer)
     }
 
