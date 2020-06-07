@@ -3,7 +3,7 @@ import fs = require("fs")
 import SocketWriter from "./SocketWriter"
 import BufferReader from "./BufferReader"
 
-const BUFFER_SIZE = 32
+const BUFFER_SIZE = 1024
 
 export default class Server {
     isConnected: boolean
