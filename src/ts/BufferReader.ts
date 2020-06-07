@@ -10,6 +10,7 @@ export default class BufferReader {
     readString = (): string => {
         const length = this.readInt16()
         const r = this.buffer.slice(this.offset, this.offset + length)
+        this.offset += length
         return r.toString("utf8")
     }
 

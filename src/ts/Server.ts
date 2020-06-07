@@ -2,6 +2,7 @@ import net = require("net")
 import fs = require("fs")
 import SocketWriter from "./SocketWriter"
 import BufferReader from "./BufferReader"
+import { throws } from "assert"
 
 const BUFFER_SIZE = 1024
 
@@ -11,10 +12,12 @@ export default class Server {
     server: net.Server
     client: net.Socket = null
     writer: SocketWriter
+    buffer: Buffer
 
     constructor(port: number) {
         this.isConnected = false
         this.port = port
+        this.buffer = Buffer.alloc(0)
         this.server = net.createServer(this.onConnection)
         this.listen()
     }
@@ -51,28 +54,6 @@ export default class Server {
             this.isConnected = false
             this.client = null
         })
-
-        this.client.on("data", this.onClientData)
-    }
-
-    private onClientData = (data: Buffer) => {
-        const length = data.readInt16BE()
-        const event = data.slice(2, length).toString()
-        this.log(`Recieved ${data.byteLength} bytes`)
-        this.onClientEvent(event, data.slice(length))
-    }
-
-    private onClientEvent = (event: string, data: Buffer) => {
-        this.log(`Event "${event}"`)
-        const reader = new BufferReader(data)
-        switch (event) {
-            case "file end":
-                this.onClientRecieveFile(reader.readInt64())
-        }
-    }
-
-    private onClientRecieveFile = (fileSize: number) => {
-        this.log(`Client recived ${fileSize} bytes`)
     }
 
     sendEmptyEvent = (event: string) => {
@@ -87,7 +68,7 @@ export default class Server {
         this.sendFileStart(stats.size)
 
         const file = fs.readFileSync(fileName)
-        const bytes = file.toJSON().data
+        const bytes = file.buffer
         var left = stats.size
         var offset = 0
         var prePercent = -1
@@ -110,18 +91,17 @@ export default class Server {
         this.log("send end")
     }
 
-    private sendFileStart(fileSize: number) {
+
+    private sendFileStart = (fileSize: number) => {
         this.writer.writeString("file start")
         this.writer.writeInt64(fileSize)
     }
 
-    private sendFile = (offset: number, bytes: number[]) => {
+    private sendFile = (offset: number, bytes: ArrayBuffer) => {
         this.writer.writeString("file")
         this.writer.writeInt64(offset)
-        this.writer.writeInt16(bytes.length)
-        bytes.forEach((byte) => {
-            this.writer.writeByte(byte)
-        })
+        this.writer.writeInt16(bytes.byteLength)
+        this.writer.socket.write(new Uint8Array(bytes))
     }
 
     private getSocketAddress = (socket: net.Socket): string => {
