@@ -1,8 +1,6 @@
 import net = require("net")
 import fs = require("fs")
 import SocketWriter from "./SocketWriter"
-import BufferReader from "./BufferReader"
-import { throws } from "assert"
 
 const BUFFER_SIZE = 1024
 
