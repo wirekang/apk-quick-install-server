@@ -14,18 +14,21 @@ function onFileChange() {
 }
 
 function onLine(line: string) {
-    line = line.trim()
-    const args = line.split(" ")
-    switch (args[0]) {
-        case "send":
-            server.transferFile(config.file)
-            break
-        case "event":
-            server.sendEmptyEvent(args[1])
-            break
-        case "exit": process.exit()
-        case "help": console.log("send exit")
-
+    try {
+        line = line.trim()
+        const args = line.split(" ")
+        switch (args[0]) {
+            case "send":
+                server.transferFile(config.file)
+                break
+            case "event":
+                server.sendEmptyEvent(args[1])
+                break
+            case "exit": process.exit()
+            case "help": console.log("send exit")
+        }
+    } catch (e) {
+        console.log(e)
     }
 }
 
