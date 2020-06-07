@@ -66,7 +66,6 @@ export default class Server {
         const bytes = file.buffer
         var left = stats.size
         var offset = 0
-        var prePercent = -1
         console.log("This line will be ignored")
         while (left > 0) {
             var send = BUFFER_SIZE
@@ -77,17 +76,12 @@ export default class Server {
             }
             this.sendFile(offset, bytes.slice(offset, end))
             left -= send
-            const percent = Math.round(end / stats.size * 100)
-            if (prePercent != percent) {
-                readline.moveCursor(process.stdout, 0, -1)
-                this.log(`send: ${end} / ${stats.size} (${percent}%)`)
-                prePercent = percent
-            }
+            readline.moveCursor(process.stdout, 0, -1)
+            this.log(`send: ${end} / ${stats.size} (${Math.round(end / stats.size * 100)}%)`)
             offset += send
         }
         this.log("send end")
     }
-
 
     private sendFileStart = (fileSize: number) => {
         this.writer.writeString("file start")
