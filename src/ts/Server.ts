@@ -56,10 +56,6 @@ export default class Server {
         })
     }
 
-    sendEmptyEvent = (event: string) => {
-        this.writer.writeString(event)
-    }
-
     transferFile = (fileName: string) => {
         this.log(`sendFile: ${fileName}`)
         if (!this.checkConnection()) return
