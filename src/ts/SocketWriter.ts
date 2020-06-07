@@ -28,4 +28,10 @@ export default class SocketWriter {
         this.socket.write(buffer)
     }
 
+    writeUInt64 = (int: number) => {
+        const buffer = Buffer.alloc(8)
+        buffer.writeBigUInt64BE(BigInt(int))
+        this.socket.write(buffer)
+    }
+
 }

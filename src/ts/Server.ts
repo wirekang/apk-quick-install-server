@@ -109,12 +109,12 @@ export default class Server {
 
     private sendFileStart(fileSize: number) {
         this.writer.writeString("file start")
-        this.writer.writeUInt32(fileSize)
+        this.writer.writeUInt64(fileSize)
     }
 
     private sendFile = (offset: number, bytes: number[]) => {
         this.writer.writeString("file")
-        this.writer.writeUInt32(offset)
+        this.writer.writeUInt64(offset)
         this.writer.writeUInt16(bytes.length)
         bytes.forEach((byte) => {
             this.writer.writeUInt8(byte)
