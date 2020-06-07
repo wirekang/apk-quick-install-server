@@ -1,5 +1,6 @@
 import net = require("net")
 import fs = require("fs")
+import readline = require("readline")
 import SocketWriter from "./SocketWriter"
 
 const BUFFER_SIZE = 1024
@@ -66,6 +67,7 @@ export default class Server {
         var left = stats.size
         var offset = 0
         var prePercent = -1
+        console.log("This line will be ignored")
         while (left > 0) {
             var send = BUFFER_SIZE
             var end = offset + send
@@ -77,7 +79,8 @@ export default class Server {
             left -= send
             const percent = Math.round(end / stats.size * 100)
             if (prePercent != percent) {
-                this.log(`send: ${fileName}  ${end} / ${stats.size}  ${percent}%`)
+                readline.moveCursor(process.stdout, 0, -1)
+                this.log(`send: ${end} / ${stats.size} (${percent}%)`)
                 prePercent = percent
             }
             offset += send
