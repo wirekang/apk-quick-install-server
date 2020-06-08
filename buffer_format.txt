@@ -11,6 +11,4 @@ HEAD
 8   int64       file size
 
 "file"
-8   int64       offset
-2   int16       size of bytes
 ?   byte        bytes

@@ -3,8 +3,6 @@ import fs = require("fs")
 import readline = require("readline")
 import SocketWriter from "./SocketWriter"
 
-const BUFFER_SIZE = 1024
-
 export default class Server {
     isConnected: boolean
     port: number
@@ -63,24 +61,7 @@ export default class Server {
         this.sendFileStart(stats.size)
 
         const file = fs.readFileSync(fileName)
-        const bytes = file.buffer
-        var left = stats.size
-        var offset = 0
-        console.log("This line will be ignored")
-        while (left > 0) {
-            var send = BUFFER_SIZE
-            var end = offset + send
-            if (end > stats.size) {
-                send -= end - stats.size
-                end = stats.size
-            }
-            this.sendFile(offset, bytes.slice(offset, end))
-            left -= send
-            readline.moveCursor(process.stdout, 0, -1)
-            this.log(`send: ${end} / ${stats.size} (${Math.round(end / stats.size * 100)}%)`)
-            offset += send
-        }
-        this.log("send end")
+        this.sendFile(file.buffer)
     }
 
     private sendFileStart = (fileSize: number) => {
@@ -88,11 +69,9 @@ export default class Server {
         this.writer.writeInt64(fileSize)
     }
 
-    private sendFile = (offset: number, bytes: ArrayBuffer) => {
+    private sendFile = (bytes: ArrayBuffer) => {
         this.writer.writeString("file")
-        this.writer.writeInt64(offset)
-        this.writer.writeInt16(bytes.byteLength)
-        this.writer.socket.write(new Uint8Array(bytes))
+        this.writer.socket.write(new Uint8Array(bytes), () => { this.log("send end") })
     }
 
     private getSocketAddress = (socket: net.Socket): string => {
