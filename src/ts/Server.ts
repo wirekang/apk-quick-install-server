@@ -2,6 +2,7 @@ import net = require("net")
 import fs = require("fs")
 import readline = require("readline")
 import SocketWriter from "./SocketWriter"
+import * as Text from "./Text"
 
 export default class Server {
     isConnected: boolean
@@ -20,16 +21,16 @@ export default class Server {
     }
 
     private listen = () => {
-        this.log("Listening...")
+        this.log(Text.get("server_listen"))
         this.server.listen(this.port)
     }
 
     private onConnection = (socket: net.Socket) => {
-        this.log(`Connection ${this.getSocketAddress(socket)}`)
+        this.log(`${Text.get("server_connect")} ${this.getSocketAddress(socket)}`)
         this.isConnected = true
 
         if (this.client != null) {
-            this.log("Connection exists.")
+            this.log(Text.get("server_connect_exists"))
             this.client.removeAllListeners()
             this.client.destroy()
         }
@@ -41,7 +42,7 @@ export default class Server {
         this.writer = new SocketWriter(this.client)
 
         this.client.on("end", () => {
-            this.log(`Disconnect(${this.getSocketAddress(this.client)})`)
+            this.log(`${Text.get("server_disconnect")}(${this.getSocketAddress(this.client)})`)
             this.isConnected = false
             this.client = null
         })
@@ -54,7 +55,7 @@ export default class Server {
     }
 
     transferFile = (fileName: string) => {
-        this.log(`sendFile: ${fileName}`)
+        this.log(`${Text.get("server_send")}: ${fileName}`)
         if (!this.checkConnection()) return
         const stats = fs.statSync(fileName)
         this.log(`${stats.size} bytes`)
@@ -71,7 +72,7 @@ export default class Server {
 
     private sendFile = (bytes: ArrayBuffer) => {
         this.writer.writeString("file")
-        this.writer.socket.write(new Uint8Array(bytes), () => { this.log("send end") })
+        this.writer.socket.write(new Uint8Array(bytes), () => { this.log(Text.get("server_send_end")) })
     }
 
     private getSocketAddress = (socket: net.Socket): string => {
@@ -80,7 +81,7 @@ export default class Server {
 
     private checkConnection = (): boolean => {
         if (!this.isConnected)
-            this.log("Not connected")
+            this.log(Text.get("server_not_connect"))
         return this.isConnected
     }
 

@@ -1,5 +1,6 @@
 import fs = require("fs")
 import md5 = require("md5")
+import * as Text from "./Text"
 
 const WATCH_DELAY = 1000
 
@@ -23,11 +24,11 @@ export default class {
     private watch = () => {
         switch (this.mode) {
             case WatchMode.NEW:
-                this.log("Waiting for file to be created...")
+                this.log(Text.get("fw_wait_create"))
                 this.watchNew()
                 break
             case WatchMode.CHANGE:
-                this.log("Waiting for file to be changed...")
+                this.log(Text.get("fw_wait_change"))
                 this.setPreHash()
                 this.watchChange()
                 break
@@ -36,7 +37,7 @@ export default class {
 
     private watchNew = () => {
         if (fs.existsSync(this.fileName)) {
-            this.log("File created")
+            this.log(Text.get("fw_file_create"))
             this.onChange()
             this.mode = WatchMode.CHANGE
             this.watch()
@@ -49,7 +50,7 @@ export default class {
         this.getHash().then((result) => {
             hash = result
             if (hash !== this.preHash) {
-                this.log("File changed")
+                this.log(Text.get("fw_file_change"))
                 this.onChange()
             }
             this.preHash = hash
