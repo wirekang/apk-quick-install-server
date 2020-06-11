@@ -2,14 +2,14 @@ English |  <a href="README.ko.md">한국어</a>
 
 ## APK Quick Install Server
 
-이것은 <a href="https://github.com/wirekang/apk-quick-install">APK Quick Install</a>의 서버인 데스크톱 프로그램입니다. 전반적인 서비스에 대한 설명은 해당 저장소를 참고하시기 바랍니다.
+This is desktop application, the server of <a href="https://github.com/wirekang/apk-quick-install">APK Quick Install</a>. The overall service is described in the <a href="https://github.com/wirekang/apk-quick-install">APKQI repository</a>.
 
-### 다운로드 및 사용법
+### How to download and use
 
-실행 파일은 <a href="https://github.com/wirekang/apk-quick-install-server/releases">Release</a>에서 다운로드 받을 수 있습니다. 
+You can download binary excutables from <a href="https://github.com/wirekang/apk-quick-install-server/releases">Release</a>.
 
-프로그램을 실행할 때에는 같은 폴더 안에 config.json 파일이 존재해야 합니다. config.json 파일은 다음과 같은 형식입니다.
+It must be config.json file exists in the same folder when you run the program. config.json file has the following format:
 
     { "file": "C:/android-studio/APKQI/app/build/outputs/apk/debug/app-debug.apk", "port": 12321 }
 
-"file"에는 생성 또는 변화를 감지할 파일의 위치를, "port"에는 클라이언트와 통신할 때 사용할 포트의 번호를 넣으면 됩니다.
+In "file", enter the location of the file to detect creation or change, and in "port", enter the port number to use when connecting with client.
