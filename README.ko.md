@@ -4,9 +4,6 @@
 
 이것은 <a href="https://github.com/wirekang/apk-quick-install">APK Quick Install</a>의 서버인 데스크톱 프로그램입니다. 전반적인 서비스에 대한 설명은 해당 저장소를 참고하시기 바랍니다.
 
-![fin ko](https://user-images.githubusercontent.com/43294688/84275060-93ef3800-ab6b-11ea-9a54-531a9cd2311f.gif)
-
-
 ### 다운로드 및 사용법
 
 실행 파일은 <a href="https://github.com/wirekang/apk-quick-install-server/releases">Release</a>에서 다운로드 받을 수 있습니다. 
