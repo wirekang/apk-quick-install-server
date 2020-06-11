@@ -4,9 +4,6 @@ English |  <a href="README.ko.md">한국어</a>
 
 이것은 <a href="https://github.com/wirekang/apk-quick-install">APK Quick Install</a>의 서버인 데스크톱 프로그램입니다. 전반적인 서비스에 대한 설명은 해당 저장소를 참고하시기 바랍니다.
 
-![fin](https://user-images.githubusercontent.com/43294688/84275058-92be0b00-ab6b-11ea-91ec-10b020ed0fb4.gif)
-
-
 ### 다운로드 및 사용법
 
 실행 파일은 <a href="https://github.com/wirekang/apk-quick-install-server/releases">Release</a>에서 다운로드 받을 수 있습니다. 
