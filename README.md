@@ -4,7 +4,7 @@ English |  <a href="README.ko.md">한국어</a>
 
 This is desktop application, the server of <a href="https://github.com/wirekang/apk-quick-install">APK Quick Install</a>. The overall service is described in the <a href="https://github.com/wirekang/apk-quick-install">APKQI repository</a>.
 
-### How to download and use
+### Usage
 
 You can download binary excutables from <a href="https://github.com/wirekang/apk-quick-install-server/releases">Release</a>.
 
